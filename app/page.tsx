@@ -1,103 +1,236 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState } from 'react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { ArrowRight, Zap, Target, TrendingUp, Users, Lightbulb, CheckCircle } from 'lucide-react'
+
+export default function LandingPage() {
+  const [email, setEmail] = useState('')
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-slate-900/80 backdrop-blur-md border-b border-slate-700 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <div className="text-2xl font-bold text-white">
+            🚀 MicroFounder AI
+          </div>
+          <div className="flex gap-4">
+            <Link href="/login">
+              <Button variant="ghost" className="text-white hover:bg-slate-700">
+                Login
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                Get Started
+              </Button>
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl sm:text-6xl font-bold text-white mb-6 leading-tight">
+            Build Your Startup <span className="text-blue-400">With AI</span>
+          </h1>
+          <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+            MicroFounder AI is the all-in-one platform for teenagers and early-stage founders to validate ideas, execute with precision, and launch real startups using structured systems.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <Link href="/signup">
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8">
+                Start Building Now <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </Link>
+            <Button size="lg" variant="outline" className="border-slate-600 text-white hover:bg-slate-700">
+              Watch Demo
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-6 text-center">Our Mission</h2>
+          <p className="text-lg text-slate-300 text-center mb-8">
+            We believe that age shouldn't limit ambition. MicroFounder AI empowers the next generation of founders with AI-driven tools, structured frameworks, and measurable execution systems to turn ideas into real, profitable businesses.
+          </p>
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="bg-slate-700 border-slate-600 p-6">
+              <Lightbulb className="w-12 h-12 text-blue-400 mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">Validate Ideas</h3>
+              <p className="text-slate-300">AI-powered analysis to test your startup concept before investing time and money.</p>
+            </Card>
+            <Card className="bg-slate-700 border-slate-600 p-6">
+              <Target className="w-12 h-12 text-blue-400 mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">Execute Precisely</h3>
+              <p className="text-slate-300">4-week sprint plans with daily tasks, measurable outcomes, and progress tracking.</p>
+            </Card>
+            <Card className="bg-slate-700 border-slate-600 p-6">
+              <TrendingUp className="w-12 h-12 text-blue-400 mb-4" />
+              <h3 className="text-xl font-semibold text-white mb-2">Launch & Scale</h3>
+              <p className="text-slate-300">Tools for market research, financial projections, and founder growth tracking.</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-12 text-center">How It Works</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-white">1</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Validate Your Idea</h3>
+              <p className="text-slate-300">
+                Submit your startup concept. Our AI analyzes market clarity, problem-solution fit, and monetization potential.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-white">2</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Build Your Plan</h3>
+              <p className="text-slate-300">
+                Generate Lean Canvas, business models, market research, and 4-week execution sprints with AI guidance.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl font-bold text-white">3</span>
+              </div>
+              <h3 className="text-xl font-semibold text-white mb-2">Execute & Track</h3>
+              <p className="text-slate-300">
+                Complete daily tasks, log validation conversations, track progress, and grow as a founder with real metrics.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-800/50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-12 text-center">Powerful Features</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { icon: Zap, title: 'Idea Validator', desc: 'AI-powered analysis of your startup concept' },
+              { icon: Target, title: 'Market Research', desc: 'TAM/SAM/SOM estimation and trend analysis' },
+              { icon: TrendingUp, title: 'Financial Projections', desc: 'Revenue forecasts and break-even analysis' },
+              { icon: Users, title: 'Competitor Analysis', desc: 'Identify strengths, weaknesses, and differentiation' },
+              { icon: CheckCircle, title: 'Sprint Builder', desc: '4-week execution plans with daily tasks' },
+              { icon: Lightbulb, title: 'AI Mentor Chat', desc: 'Context-aware startup advice and guidance' },
+            ].map((feature, idx) => (
+              <Card key={idx} className="bg-slate-700 border-slate-600 p-6 flex gap-4">
+                <feature.icon className="w-8 h-8 text-blue-400 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-white mb-1">{feature.title}</h3>
+                  <p className="text-slate-300 text-sm">{feature.desc}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-12 text-center">What Founders Say</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'Alex Chen',
+                role: 'Founder, TechFlow',
+                quote: 'MicroFounder AI helped me validate my idea in 2 weeks instead of 2 months. The AI insights were incredibly valuable.',
+              },
+              {
+                name: 'Sarah Johnson',
+                role: 'Founder, EcoStart',
+                quote: 'The sprint builder and daily task system kept me accountable. I launched my MVP in 4 weeks!',
+              },
+              {
+                name: 'Marcus Williams',
+                role: 'Founder, DataViz',
+                quote: 'As a teenager, I felt lost building a startup. MicroFounder AI gave me the structure and confidence I needed.',
+              },
+            ].map((testimonial, idx) => (
+              <Card key={idx} className="bg-slate-700 border-slate-600 p-6">
+                <p className="text-slate-300 mb-4 italic">"{testimonial.quote}"</p>
+                <p className="font-semibold text-white">{testimonial.name}</p>
+                <p className="text-sm text-slate-400">{testimonial.role}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-6">Ready to Build Your Startup?</h2>
+          <p className="text-xl text-blue-100 mb-8">
+            Join hundreds of founders building real businesses with MicroFounder AI.
+          </p>
+          <Link href="/signup">
+            <Button size="lg" className="bg-white text-blue-600 hover:bg-slate-100 px-8">
+              Start Building Now <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 border-t border-slate-700 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-semibold text-white mb-4">MicroFounder AI</h3>
+              <p className="text-slate-400 text-sm">Building the future of startup execution.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">Product</h4>
+              <ul className="space-y-2 text-slate-400 text-sm">
+                <li><a href="#" className="hover:text-white">Features</a></li>
+                <li><a href="#" className="hover:text-white">Pricing</a></li>
+                <li><a href="#" className="hover:text-white">Docs</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">Company</h4>
+              <ul className="space-y-2 text-slate-400 text-sm">
+                <li><a href="#" className="hover:text-white">About</a></li>
+                <li><a href="#" className="hover:text-white">Blog</a></li>
+                <li><a href="#" className="hover:text-white">Contact</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-4">Legal</h4>
+              <ul className="space-y-2 text-slate-400 text-sm">
+                <li><a href="#" className="hover:text-white">Privacy</a></li>
+                <li><a href="#" className="hover:text-white">Terms</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-slate-700 pt-8 text-center text-slate-400 text-sm">
+            <p>&copy; 2026 MicroFounder AI. All rights reserved.</p>
+          </div>
+        </div>
       </footer>
     </div>
-  );
+  )
 }

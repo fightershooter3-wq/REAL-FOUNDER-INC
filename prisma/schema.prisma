@@ -1,0 +1,655 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - core authentication and profile
+model User {
+  id                    String    @id @default(cuid())
+  email                 String    @unique
+  username              String    @unique
+  passwordHash          String
+  name                  String?
+  bio                   String?
+  profileImage          String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  
+  // Relations
+  startupIdeas          StartupIdea[]
+  validationLogs        ValidationLog[]
+  weeklyReflections     WeeklyReflection[]
+  founderGrowth         FounderGrowth?
+  sprintTasks           SprintTask[]
+  competitorAnalyses    CompetitorAnalysis[]
+  landingPageGenerations LandingPageGeneration[]
+  financialProjections  FinancialProjection[]
+  mentorChats           MentorChat[]
+  founderProfile        FounderProfile?
+  notifications         Notification[]
+  
+  // New ecosystem relations
+  startupJourney        StartupJourney?
+  founderScore          FounderScore?
+  executionStreak       ExecutionStreak?
+  customerInterviews    CustomerInterview[]
+  prototypePlans        PrototypePlan[]
+  startupMetrics        StartupMetrics[]
+  pitchDecks            PitchDeck[]
+  weeklyMissions        WeeklyMission[]
+  leaderboardEntry      LeaderboardEntry?
+  learningProgress      LearningProgress[]
+  investorReadiness     InvestorReadiness[]
+}
+
+// Startup Idea - main entity for each startup
+model StartupIdea {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title                 String
+  description           String
+  targetAudience        String?
+  problemSolved         String?
+  status                String    @default("draft")
+  
+  // AI Generated Analysis
+  marketClarityScore    Int?
+  problemSolutionStrength Int?
+  monetizationSuggestions String?
+  riskAnalysis          String?
+  competitorAwareness   String?
+  
+  // Market Research
+  tam                   String?
+  sam                   String?
+  som                   String?
+  demandIndicators      String?
+  marketTrends          String?
+  entryStrategies       String?
+  
+  // Business Model
+  businessModel         String?
+  revenueStreams        String?
+  costStructure         String?
+  keyMetrics            String?
+  
+  // Execution
+  executionStreak       Int       @default(0)
+  progressPercentage    Int       @default(0)
+  currentSprint         String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  
+  // Relations
+  leanCanvas            LeanCanvas?
+  businessModelDesign   BusinessModelDesign?
+  executionSprints      ExecutionSprint[]
+  validationLogs        ValidationLog[]
+  competitorAnalyses    CompetitorAnalysis[]
+  landingPageGeneration LandingPageGeneration?
+  financialProjection   FinancialProjection?
+  
+  // New ecosystem relations
+  customerInterviews    CustomerInterview[]
+  prototypePlan         PrototypePlan?
+  startupMetrics        StartupMetrics?
+  pitchDeck             PitchDeck?
+  investorReadiness     InvestorReadiness?
+}
+
+// Lean Canvas - structured business plan
+model LeanCanvas {
+  id                    String    @id @default(cuid())
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  problem               String?
+  solution              String?
+  uniqueValueProposition String?
+  channels              String?
+  revenueStreams        String?
+  costStructure         String?
+  keyMetrics            String?
+  unfairAdvantage       String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Business Model Design
+model BusinessModelDesign {
+  id                    String    @id @default(cuid())
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  modelType             String
+  revenueMechanics      String?
+  marginPotential       String?
+  risks                 String?
+  scalingDifficulty     String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Execution Sprint - 4-week sprint planning
+model ExecutionSprint {
+  id                    String    @id @default(cuid())
+  startupIdeaId         String
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  sprintNumber          Int
+  title                 String
+  startDate             DateTime
+  endDate               DateTime
+  
+  weeklyDeliverables    String?
+  measurableOutcomes    String?
+  progressPercentage    Int       @default(0)
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  
+  // Relations
+  tasks                 SprintTask[]
+}
+
+// Sprint Tasks - daily micro-tasks
+model SprintTask {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  sprintId              String
+  sprint                ExecutionSprint @relation(fields: [sprintId], references: [id], onDelete: Cascade)
+  
+  title                 String
+  description           String?
+  completed             Boolean   @default(false)
+  completedAt           DateTime?
+  dueDate               DateTime?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Validation Tracker - user conversations and feedback
+model ValidationLog {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  conversationSummary   String
+  feedback              String?
+  iterationsMade        Int       @default(0)
+  validationScore       Int?
+  learningLog           String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Competitor Analysis
+model CompetitorAnalysis {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  competitorName        String
+  strengths             String?
+  weaknesses            String?
+  differentiationMap    String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Landing Page Generator
+model LandingPageGeneration {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  headline              String?
+  subheadline           String?
+  cta                   String?
+  featureBullets        String?
+  valueProposition      String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Financial Projections
+model FinancialProjection {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  expectedUsers         Int?
+  pricing               Decimal?  @db.Decimal(10, 2)
+  monthlyCosts          Decimal?  @db.Decimal(10, 2)
+  
+  revenueProjection     String?
+  breakEvenEstimate     String?
+  runwaySimulation      String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Founder Growth Tracker
+model FounderGrowth {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  skillsLearned         String?
+  booksRead             Int       @default(0)
+  experimentsRun        Int       @default(0)
+  failuresLogged        Int       @default(0)
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Weekly Reflection
+model WeeklyReflection {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  week                  DateTime
+  wins                  String?
+  failures              String?
+  lessons               String?
+  nextActions           String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// AI Mentor Chat - context-aware chat history
+model MentorChat {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  userMessage           String
+  mentorResponse        String
+  context               String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Notifications
+model Notification {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  title                 String
+  message               String
+  type                  String
+  read                  Boolean   @default(false)
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Founder Profile - personal branding and growth tracking
+model FounderProfile {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  bio                   String    @default("")
+  skills                String    @default("")
+  experience            String    @default("")
+  achievements          String    @default("")
+  goals                 String    @default("")
+  mentors               String    @default("")
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// ============================================
+// PHASE 1: CORE SYSTEMS
+// ============================================
+
+// Startup Journey - tracks founder progress through 5 stages
+model StartupJourney {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  currentStage          String    @default("idea") // idea, validation, prototype, launch, growth
+  stageProgress         Int       @default(0) // 0-100% progress in current stage
+  
+  // Stage completion tracking
+  ideaStageCompleted    Boolean   @default(false)
+  validationStageCompleted Boolean @default(false)
+  prototypeStageCompleted Boolean @default(false)
+  launchStageCompleted  Boolean   @default(false)
+  growthStageCompleted  Boolean   @default(false)
+  
+  // Unlock tracking
+  unlockedTools         String    @default("[]") // JSON array of unlocked tool names
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Founder Score - gamification and achievement tracking
+model FounderScore {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  totalScore            Int       @default(0)
+  skillLevel            String    @default("novice") // novice, builder, founder, visionary, legend
+  
+  // Score breakdown
+  ideasGenerated        Int       @default(0)
+  validationReports     Int       @default(0)
+  customerInterviews    Int       @default(0)
+  sprintTasksCompleted  Int       @default(0)
+  prototypesLaunched    Int       @default(0)
+  
+  // Achievements
+  achievements          String    @default("[]") // JSON array of achievement IDs
+  badges                String    @default("[]") // JSON array of badge names
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Execution Streak - daily activity tracking
+model ExecutionStreak {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  currentStreak         Int       @default(0)
+  longestStreak         Int       @default(0)
+  lastActivityDate      DateTime?
+  
+  // Streak history
+  streakHistory         String    @default("[]") // JSON array of streak records
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// ============================================
+// PHASE 2: VALIDATION & DISCOVERY
+// ============================================
+
+// Customer Interview - validation and discovery
+model CustomerInterview {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  customerName          String
+  customerRole          String?
+  customerCompany       String?
+  
+  interviewDate         DateTime
+  duration              Int? // in minutes
+  
+  // Interview content
+  problemsIdentified    String? // JSON array of problems
+  feedbackNotes         String?
+  keyInsights           String?
+  
+  // Scoring
+  validationScore       Int? // 0-100
+  confidenceLevel       String? // low, medium, high
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Prototype Plan - MVP planning and roadmap
+model PrototypePlan {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  platformType          String // web-app, mobile-app, ai-tool, saas, etc.
+  
+  // MVP Features
+  mvpFeatures           String // JSON array of features
+  featurePriority       String // JSON array with priority ranking
+  
+  // Development roadmap
+  developmentStages     String // JSON array of stages with timelines
+  estimatedTimeline     String? // e.g., "4-6 weeks"
+  
+  // Resources needed
+  skillsNeeded          String? // JSON array
+  toolsNeeded           String? // JSON array
+  estimatedBudget       Decimal? @db.Decimal(10, 2)
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// ============================================
+// PHASE 3: METRICS & ANALYTICS
+// ============================================
+
+// Startup Metrics - analytics and KPI tracking
+model StartupMetrics {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  // Core metrics
+  totalUsers            Int       @default(0)
+  activeUsers           Int       @default(0)
+  monthlyRecurringRevenue Decimal? @db.Decimal(10, 2)
+  churnRate             Decimal?  @db.Decimal(5, 2) // percentage
+  
+  // Customer feedback
+  nps                   Int? // Net Promoter Score (0-100)
+  customerSatisfaction  Int? // 0-100
+  feedbackCount         Int       @default(0)
+  
+  // Growth metrics
+  growthRate            Decimal?  @db.Decimal(5, 2) // percentage
+  conversionRate        Decimal?  @db.Decimal(5, 2) // percentage
+  
+  // Historical data
+  metricsHistory        String    @default("[]") // JSON array of historical snapshots
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Pitch Deck - AI-generated pitch presentations
+model PitchDeck {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  // Pitch sections
+  problem               String?
+  solution              String?
+  marketSize            String?
+  product               String?
+  businessModel         String?
+  competition           String?
+  traction              String?
+  vision                String?
+  
+  // Metadata
+  title                 String?
+  subtitle              String?
+  
+  // Export formats
+  pdfUrl                String?
+  presentationUrl       String?
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// ============================================
+// PHASE 4: GAMIFICATION & ENGAGEMENT
+// ============================================
+
+// Weekly Mission - gamified tasks
+model WeeklyMission {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  weekStartDate         DateTime
+  weekEndDate           DateTime
+  
+  // Mission details
+  missions              String    @default("[]") // JSON array of mission objects
+  completedMissions     String    @default("[]") // JSON array of completed mission IDs
+  
+  // Rewards
+  pointsEarned          Int       @default(0)
+  completionPercentage  Int       @default(0)
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Leaderboard Entry - founder rankings
+model LeaderboardEntry {
+  id                    String    @id @default(cuid())
+  userId                String    @unique
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Ranking metrics
+  founderScore          Int       @default(0)
+  executionStreak       Int       @default(0)
+  projectsCompleted     Int       @default(0)
+  
+  // Ranking position
+  overallRank           Int?
+  scoreRank             Int?
+  streakRank            Int?
+  
+  // Visibility
+  isPublic              Boolean   @default(true)
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// ============================================
+// PHASE 5: LEARNING & RESOURCES
+// ============================================
+
+// Learning Module - structured education
+model LearningModule {
+  id                    String    @id @default(cuid())
+  
+  title                 String
+  description           String?
+  category              String // startup-basics, validation, building, growth, fundraising
+  
+  // Content
+  content               String // Markdown content
+  videoUrl              String?
+  resources             String? // JSON array of resource links
+  
+  // Metadata
+  difficulty            String // beginner, intermediate, advanced
+  estimatedTime         Int? // in minutes
+  order                 Int // for sorting within category
+  
+  // Reverse relation for LearningProgress
+  progress              LearningProgress[]
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Learning Progress - user progress tracking
+model LearningProgress {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  moduleId              String
+  module                LearningModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  
+  completed             Boolean   @default(false)
+  completedAt           DateTime?
+  progress              Int       @default(0) // 0-100%
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+}
+
+// Investor Readiness - assessment and scoring
+model InvestorReadiness {
+  id                    String    @id @default(cuid())
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  startupIdeaId         String    @unique
+  startupIdea           StartupIdea @relation(fields: [startupIdeaId], references: [id], onDelete: Cascade)
+  
+  // Readiness scores (0-100)
+  validationScore       Int       @default(0)
+  prototypeScore        Int       @default(0)
+  tractionScore         Int       @default(0)
+  businessModelScore    Int       @default(0)
+  teamScore             Int       @default(0)
+  
+  // Overall readiness
+  overallReadiness      Int       @default(0) // 0-100
+  readinessLevel        String    @default("not-ready") // not-ready, early-stage, ready, investor-ready
+  
+  // Recommendations
+  recommendations       String    @default("[]") // JSON array of improvement suggestions
+  
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+}
