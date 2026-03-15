@@ -25,7 +25,7 @@ interface Idea {
 
 export default function CompetitorAnalysisPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<unknown>(null)
   const [ideas, setIdeas] = useState<Idea[]>([])
   const [selectedIdeaId, setSelectedIdeaId] = useState<string>('')
   const [competitors, setCompetitors] = useState<Competitor[]>([])

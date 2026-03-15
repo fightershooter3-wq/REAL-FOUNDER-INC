@@ -36,14 +36,14 @@ interface Task {
 }
 
 export default function SprintsPage() {
-  const router = useRouter()
+  const _router = useRouter()
   const [ideas, setIdeas] = useState<Idea[]>([])
   const [selectedIdea, setSelectedIdea] = useState<string>('')
   const [sprints, setSprints] = useState<Sprint[]>([])
   const [selectedSprint, setSelectedSprint] = useState<Sprint | null>(null)
   const [tasks, setTasks] = useState<Task[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [_error, setError] = useState('')
   const [showNewSprintForm, setShowNewSprintForm] = useState(false)
   const [showNewTaskForm, setShowNewTaskForm] = useState(false)
   const [newSprintData, setNewSprintData] = useState({

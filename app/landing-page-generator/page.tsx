@@ -30,7 +30,7 @@ interface Idea {
 
 export default function LandingPageGeneratorPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<unknown>(null)
   const [ideas, setIdeas] = useState<Idea[]>([])
   const [selectedIdeaId, setSelectedIdeaId] = useState<string>('')
   const [config, setConfig] = useState<LandingPageConfig | null>(null)

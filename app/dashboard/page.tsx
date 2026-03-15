@@ -53,8 +53,8 @@ export default function DashboardPage() {
           setIdeas(data)
           setStats({
             totalIdeas: data.length,
-            validatedIdeas: data.filter((idea: any) => idea.validated).length,
-            activeProjects: data.filter((idea: any) => idea.status === 'active').length,
+            validatedIdeas: data.filter((idea: unknown) => idea.validated).length,
+            activeProjects: data.filter((idea: unknown) => idea.status === 'active').length,
           })
         }
       } catch (error) {

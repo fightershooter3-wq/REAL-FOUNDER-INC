@@ -28,7 +28,7 @@ interface Idea {
 
 export default function FinancialProjectionsPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<unknown>(null)
   const [ideas, setIdeas] = useState<Idea[]>([])
   const [selectedIdeaId, setSelectedIdeaId] = useState<string>('')
   const [projection, setProjection] = useState<FinancialProjection | null>(null)

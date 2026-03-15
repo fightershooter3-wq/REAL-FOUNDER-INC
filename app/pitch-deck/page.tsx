@@ -31,7 +31,7 @@ interface Idea {
 
 export default function PitchDeckPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<PitchDeck | null>(null)
   const [ideas, setIdeas] = useState<Idea[]>([])
   const [selectedIdeaId, setSelectedIdeaId] = useState<string>('')
   const [pitchDeck, setPitchDeck] = useState<PitchDeck | null>(null)

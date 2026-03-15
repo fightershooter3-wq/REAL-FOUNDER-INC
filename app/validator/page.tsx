@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+// import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ArrowLeft, CheckCircle, AlertCircle, Lightbulb } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -75,7 +75,7 @@ const VALIDATION_QUESTIONS: ValidationQuestion[] = [
 export default function ValidatorPage() {
   const { user, loading: authLoading, requireAuth } = useAuth()
   const [responses, setResponses] = useState<Record<string, boolean>>({})
-  const [showResults, setShowResults] = useState(false)
+  const [_showResults, _setShowResults] = useState(false)
 
   requireAuth()
 
@@ -210,7 +210,7 @@ export default function ValidatorPage() {
                     <div>
                       <p className="text-yellow-400 font-semibold">Moderate Validation</p>
                       <p className="text-slate-300 text-sm mt-1">
-                        Your idea has potential but needs more validation. Focus on the areas where you answered "No".
+                        Your idea has potential but needs more validation. Focus on the areas where you answered &quot;No&quot;.
                       </p>
                     </div>
                   </div>

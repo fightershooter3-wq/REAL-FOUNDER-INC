@@ -30,7 +30,7 @@ interface GrowthCategory {
 
 export default function FounderGrowthPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<unknown>(null)
   const [metrics, setMetrics] = useState<GrowthMetric[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')

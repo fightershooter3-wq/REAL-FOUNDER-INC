@@ -34,7 +34,7 @@ interface Sprint {
 
 export default function ExecutionSprintsPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<unknown>(null)
   const [sprints, setSprints] = useState<Sprint[]>([])
   const [selectedSprint, setSelectedSprint] = useState<Sprint | null>(null)
   const [loading, setLoading] = useState(true)

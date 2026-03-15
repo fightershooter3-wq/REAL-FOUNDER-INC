@@ -25,7 +25,7 @@ interface LeanCanvasData {
   unfairAdvantage: string
 }
 
-const CANVAS_SECTIONS = [
+const _CANVAS_SECTIONS = [
   {
     id: 'problem',
     title: 'Problem',

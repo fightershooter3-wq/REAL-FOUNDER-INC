@@ -24,7 +24,7 @@ interface WeeklyReflection {
 
 export default function WeeklyReflectionPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<unknown>(null)
   const [reflections, setReflections] = useState<WeeklyReflection[]>([])
   const [selectedReflection, setSelectedReflection] = useState<WeeklyReflection | null>(null)
   const [loading, setLoading] = useState(true)

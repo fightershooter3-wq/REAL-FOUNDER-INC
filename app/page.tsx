@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card'
 import { ArrowRight, Zap, Target, TrendingUp, Users, Lightbulb, CheckCircle } from 'lucide-react'
 
 export default function LandingPage() {
-  const [email, setEmail] = useState('')
+  const [_email, _setEmail] = useState('')
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
