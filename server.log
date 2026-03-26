@@ -13,3 +13,7 @@
  ✓ Compiled /lean-canvas in 5.4s
  ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
  GET /lean-canvas 200 in 6751ms
+ GET /lean-canvas 200 in 230ms
+ ○ Compiling / ...
+ ✓ Compiled / in 621ms
+ GET / 200 in 865ms
